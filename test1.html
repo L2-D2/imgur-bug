@@ -30,7 +30,6 @@
           var fd = new FormData();
           fd.append("image", file);
           var xhr = new XMLHttpRequest();
-          // xhr.responseType = "json";
           xhr.open("POST", "https://api.imgur.com/3/image");
           xhr.onload = function() {
               // var code = '[img]' + JSON.parse(xhr.responseText).data.link + '[/img]';
@@ -38,12 +37,16 @@
               // editor.performInsert(code);
               // javascript:window.close()
               var myParagraph = document.getElementById("theReturn");
-              myParagraph.innerHTML = xhr.responseText;
+              myParagraph.innerHTML = JSON.stringify(xhr.response);
+              var myImage = document.getElementById("theImage");
+              var theResponse = xhr.response;
+              myImage.src = theResponse.data.link;
           }
 
-          xhr.setRequestHeader('Authorization', 'Client-ID'+ myIDKey);
+          xhr.setRequestHeader('Authorization', 'Client-ID '+ myIDKey);
 
           xhr.send(fd);
+          xhr.responseType = "json";
 
 
       }
@@ -53,5 +56,6 @@
     <input type="file" id="theFile">
     <button id="theButton">The button</button>
     <p id="theReturn"></p>
+    <img id="theImage"></img>
   </body>
 </html>
