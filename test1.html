@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <script type="text/javascript">
+      window.ondragover = function(e) { e.preventDefault() };
+      window.ondrop = function(e) { e.preventDefault(); upload(e.dataTransfer.files[0]); };
+      var myIDKey = "0df414e888d7240";
+
+      window.onload = function() {
+        var myButton = document.getElementById("theButton");
+        myButton.addEventListener("click", uploadFile, false);
+      };
+
+      function uploadFile() {
+        var selected_file = document.getElementById('theFile').files[0];
+        upload(selected_file);
+      }
+
+      function upload(file) {
+
+
+          if (!file || !file.type.match(/image.*/)) return;
+
+
+          document.body.className = "uploading";
+
+
+          var fd = new FormData();
+          fd.append("image", file);
+          var xhr = new XMLHttpRequest();
+          // xhr.responseType = "json";
+          xhr.open("POST", "https://api.imgur.com/3/image");
+          xhr.onload = function() {
+              // var code = '[img]' + JSON.parse(xhr.responseText).data.link + '[/img]';
+              // var editor = eval('opener.' + 'clickableEditor');
+              // editor.performInsert(code);
+              // javascript:window.close()
+          }
+
+          xhr.setRequestHeader('Authorization', 'Client-ID'+ myIDKey);
+
+          xhr.send(fd);
+          var myParagraph = document.getElementById("theReturn");
+          myParagraph.textContent = JSON.stringify(xhr.responseText);
+      }
+    </script>
+  </head>
+  <body>
+    <input type="file" id="theFile">
+    <button id="theButton">The button</button>
+    <p id="theReturn"></p>
+  </body>
+</html>
