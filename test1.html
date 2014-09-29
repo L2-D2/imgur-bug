@@ -6,9 +6,11 @@
       window.ondrop = function(e) { e.preventDefault(); upload(e.dataTransfer.files[0]); };
       var myIDKey = "0df414e888d7240";
 
+
       window.onload = function() {
         var myButton = document.getElementById("theButton");
         myButton.addEventListener("click", uploadFile, false);
+
       };
 
       function uploadFile() {
@@ -35,13 +37,15 @@
               // var editor = eval('opener.' + 'clickableEditor');
               // editor.performInsert(code);
               // javascript:window.close()
+              var myParagraph = document.getElementById("theReturn");
+              myParagraph.innerHTML = xhr.responseText;
           }
 
           xhr.setRequestHeader('Authorization', 'Client-ID'+ myIDKey);
 
           xhr.send(fd);
-          var myParagraph = document.getElementById("theReturn");
-          myParagraph.textContent = JSON.stringify(xhr.responseText);
+
+
       }
     </script>
   </head>
